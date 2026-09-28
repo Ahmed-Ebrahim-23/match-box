@@ -1,3 +1,6 @@
 private/
 AGENTS.md
 docs/
+.agents/
+.claude/
+skills-lock.json
