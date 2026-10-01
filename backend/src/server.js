@@ -2,6 +2,7 @@
 const helmet = require('helmet');
 const morgan = require('morgan');
 const cors = require('cors');
+const { WebSocketServer } = require('ws');
 
 const env = require('./config/env.config');
 const connectDB = require('./config/db.config');
@@ -29,6 +30,21 @@ app.use('/api/v1/auth', authRoutes);
 // Error Handler
 app.use(errorHandler);
 
-app.listen(env.PORT, () => {
+const server = app.listen(env.PORT, () => {
   console.log(`server listening on port ${env.PORT} in ${env.NODE_ENV} mode`);
 });
+
+const wss = new WebSocketServer({ server })
+wss.on("listening", (ws) => {
+  console.log(`Websocket server is set on ${env.PORT}`);
+})
+
+wss.on('connection', (ws) => {                                                                                                                                                                                                                                
+  console.log('A new client connected');                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+  ws.send(JSON.stringify({message: 'Hello World' }));                                                                                                                                                                           
+                                                                                                                                                                                                                                                              
+  ws.on('message', (message) => {                                                                                                                                                                                                                             
+    console.log('Received:', message.toString());                                                                                                                                                                                                             
+  });                                                                                                                                                                                                                                                         
+});  
