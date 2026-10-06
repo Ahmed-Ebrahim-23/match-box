@@ -1,4 +1,4 @@
-﻿const express = require('express');
+const express = require('express');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -39,12 +39,5 @@ wss.on("listening", (ws) => {
   console.log(`Websocket server is set on ${env.PORT}`);
 })
 
-wss.on('connection', (ws) => {                                                                                                                                                                                                                                
-  console.log('A new client connected');                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-  ws.send(JSON.stringify({message: 'Hello World' }));                                                                                                                                                                           
-                                                                                                                                                                                                                                                              
-  ws.on('message', (message) => {                                                                                                                                                                                                                             
-    console.log('Received:', message.toString());                                                                                                                                                                                                             
-  });                                                                                                                                                                                                                                                         
-});  
+const { handleConnection } = require('./socket/index');
+wss.on('connection', handleConnection);
